@@ -3,14 +3,24 @@ package org.galaxy;
 public class Ship {
 	Planet source = null;
 	Planet dest =  null;
+	private Party party;
 	
+	public Party getParty() {
+		return party;
+	}
+
+	public void setParty(Party party) {
+		this.party = party;
+	}
+
 	float x;
 	float y;
 	float speed;
 	
 	float fuzzyness = 5f;
 	
-	public Ship(Planet source, Planet dest, float speed) {
+	public Ship(Party party, Planet source, Planet dest, float speed) {
+		this.party = party;
 		this.source = source;
 		this.dest = dest;
 		this.speed = speed;
@@ -20,14 +30,6 @@ public class Ship {
 		Vector delta = dest.getVector().sub(getVector()); 
 		delta = delta.normalize();
 		Vector move = delta.multiply(source.getSize());
-//		
-//		float dx = dest.getX() - x;
-//		float dy = dest.getY() - y;
-//		float length = (float) Math.sqrt(dx*dx+dy*dy);
-//		dx /= length;
-//		dy /= length;
-//		dx *= source.getSize();
-//		dy *= source.getSize();
 		
 		x += move.getX();
 		y += move.getY();		
@@ -46,8 +48,7 @@ public class Ship {
 		dy += (Math.random() * fuzzyness) - fuzzyness / 2.f;
 		
 		x += dx;
-		y += dy;
-		
+		y += dy;		
 	}
 
 	public Planet getSource() {

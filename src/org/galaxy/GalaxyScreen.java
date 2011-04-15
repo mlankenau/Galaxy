@@ -18,6 +18,10 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 	Planet planetDragFrom = null;
 	Planet possibleTarget = null;
 
+	Party player = null;
+	Party computer = null;
+	Party neutral = null;
+	
 	float fps = 10;
 
 	public GalaxyScreen(Context context) {
@@ -36,9 +40,53 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 	}
 
 	private void init() {
-		planets.add(new Planet(50, 50, 30, 20));
-		planets.add(new Planet(200, 300, 20, 20));
-
+		float boarder = 30;
+		
+		Paint playerPaint = new Paint();
+		playerPaint.setColor(0xff00a000);
+		Paint computerPaint = new Paint();
+		computerPaint.setColor(0xffa00000);
+		Paint neutralPaint = new Paint();
+		neutralPaint.setColor(0xffa0a0a0);
+		
+		player = new Party("player", playerPaint);
+		computer = new Party("computer", computerPaint);
+		neutral = new Party("", neutralPaint);
+		
+		for (int i=0; i<6; i++) {
+			float size = 20;
+			float sr = (float) Math.random();
+			if (sr > 0.4) size = 25;
+			if (sr > 0.7) size = 30;			
+				
+			
+			float x = 0;
+			float y = 0;
+			while (true) {
+				x = (float) (boarder + Math.random() * (320.f-2.f*boarder));
+				y = (float) (boarder + Math.random() * (400.f-2.f*boarder));
+				
+				boolean collision = false;
+				for (Planet p : planets) {
+					Vector vp = p.getVector();
+					Vector dist = vp.sub(new Vector(x,y));
+					if (dist.length() < p.getSize() + size + 10.f) collision = true;
+				}
+				
+				if (!collision) break;
+			}
+			
+			
+			
+			Party party = neutral;
+			if (i==0 ) party = player;
+			if (i==1) party = computer;
+			
+			planets.add(new Planet(party, x, y, size, 5));
+		}
+		
+		
+		
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				cycle();
@@ -87,27 +135,21 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
-		Paint paint = new Paint();
-		paint.setColor(0xffa00000);
 		Paint paintText = new Paint();
 		paintText.setColor(0xffffffff);
 		paintText.setTextAlign(Align.CENTER);
-		
-		Paint paintShip = new Paint();
-		paintShip.setColor(0xff00ff00);
-		
+				
 		Paint paintPlanetSelect = new Paint();
 		paintPlanetSelect.setColor(0x50ffffff);
 		for (Planet planet : planets) {
 			
 			
 			canvas.drawCircle(planet.getX(), planet.getY(), planet.getSize(),
-					paint);
+					planet.getParty().getPaint());
 			canvas.drawText("" + planet.getEnergy(), planet.getX(),
 					planet.getY() + 3, paintText);
 			
@@ -117,33 +159,30 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 			}
 		}
 		for (Ship ship : ships) {
-			canvas.drawCircle(ship.getX(), ship.getY(), 2, paintShip);
+			canvas.drawCircle(ship.getX(), ship.getY(), 2, ship.getParty().getPaint());
 		}
 		
 		super.draw(canvas);
 	}
 	
-	private Planet findPlanet(float x, float y) {
+	private Planet findPlanet(float x, float y, Party party) {
 		for (Planet planet : planets) {
-			if (planet.isHit(x, y, 30))
+			if ((party == null || planet.getParty() == party) && planet.isHit(x, y, 30))
 				return planet;
 		}
 		return null;
 	}
 
-//	public boolean onTouch(View v, MotionEvent event) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-
 	 
     public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            	planetDragFrom = findPlanet(event.getX(), event.getY());            	
+            	planetDragFrom = findPlanet(event.getX(), event.getY(), player);            	
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            	possibleTarget = findPlanet(event.getX(), event.getY());
+            	if (planetDragFrom != null) {
+            		possibleTarget = findPlanet(event.getX(), event.getY(), null);
+            	}
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            	Planet dragTo = findPlanet(event.getX(), event.getY());
+            	Planet dragTo = findPlanet(event.getX(), event.getY(), null);
             	if (planetDragFrom != null && dragTo != null) {
             		ships.addAll(planetDragFrom.launch(dragTo));   		            		
             	}

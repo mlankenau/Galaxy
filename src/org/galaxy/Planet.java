@@ -8,12 +8,22 @@ public class Planet {
 	private float y;
 	private float size;
 	private float energy;
+	private Party party;
 	
-	public Planet(float x, float y, float size, int energy) {
+	public Party getParty() {
+		return party;
+	}
+
+	public void setParty(Party party) {
+		this.party = party;
+	}
+
+	public Planet(Party party, float x, float y, float size, int energy) {
 		this.x  =x;
 		this.y = y;
 		this.size = size;
 		this.energy = energy;
+		this.party = party;
 	}
 
 	public float getX() {
@@ -37,7 +47,9 @@ public class Planet {
 	}
 	
 	public void grow(float period) {
-		energy += period * size / 50;
+		if (party.hasGrows()) {
+			energy += period * size / 50;
+		}
 	}
 	
 	public boolean detectCollision(Ship ship) {
@@ -55,7 +67,16 @@ public class Planet {
 	}
 	
 	public void collide(Ship ship) {
-		energy += 1;
+		if (ship.getParty() == party) {
+			energy += 1;
+		}
+		else {
+			energy -= 1;
+			if (energy <= 0) {
+				party = ship.getParty();
+			}
+		}
+			
 	}
 	
 	public List<Ship> launch(Planet to) {
@@ -63,7 +84,7 @@ public class Planet {
 		int n = (int) (energy / 3);
 		energy -= n;
 		for (int i=0; i<n; i++)
-			shipsToStart.add(new Ship(this, to, 25));
+			shipsToStart.add(new Ship(party, this, to, 25));
 		
 		return shipsToStart;
 	}
