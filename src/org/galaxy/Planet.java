@@ -72,7 +72,7 @@ public class Planet {
 		}
 		else {
 			energy -= 1;
-			if (energy <= 0) {
+			if (energy <= 1) {
 				party = ship.getParty();
 			}
 		}
