@@ -1,8 +1,5 @@
 package org.galaxy;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,13 +8,17 @@ import android.graphics.Paint.Align;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class GalaxyScreen extends View implements View.OnTouchListener {
 
-	ArrayList<Planet> planets = new ArrayList<Planet>();
-	ArrayList<Ship> ships = new ArrayList<Ship>();
+	List<Planet> planets = new CopyOnWriteArrayList<Planet>();
+	List<Ship> ships = new CopyOnWriteArrayList<Ship>();
 
-	HashSet<Planet> dragFrom = new HashSet<Planet>();
+	Set<Planet> dragFrom = new CopyOnWriteArraySet<Planet>();
 	Planet possibleTarget = null;
 
 	Party player = null;
@@ -113,7 +114,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 					planet.grow((1.0f / fps));
 				}
 
-				ArrayList<Ship> deadShips = new ArrayList<Ship>();
+				List<Ship> deadShips = new CopyOnWriteArrayList<Ship>();
 				for (Ship ship : ships) {
 					ship.move((1.0f / fps));
 
@@ -211,3 +212,4 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 	}
 
 }
+
