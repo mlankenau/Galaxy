@@ -1,0 +1,12 @@
+Galaxy
+======
+
+for command line building just go to your project path and say
+
+$ android update project --target 1 --path .
+
+and after that just do a
+
+$ build release
+
+
