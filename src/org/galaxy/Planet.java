@@ -1,6 +1,6 @@
 package org.galaxy;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 
 public class Planet {
@@ -33,6 +33,10 @@ public class Planet {
 	public float getY() {
 		return y;
 	}
+
+  public Vector getPos(){
+    return new Vector(x, y);
+  }
 
 	public float getSize() {
 		return size;
@@ -80,7 +84,7 @@ public class Planet {
 	}
 	
 	public List<Ship> launch(Planet to) {
-		ArrayList<Ship> shipsToStart = new ArrayList<Ship>();
+		List<Ship> shipsToStart = new CopyOnWriteArrayList<Ship>();
 		int n = (int) (energy / 3);
 		energy -= n;
 		for (int i=0; i<n; i++)
