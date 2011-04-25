@@ -81,7 +81,7 @@ public class Planet {
 	
 	public List<Ship> launch(Planet to) {
 		ArrayList<Ship> shipsToStart = new ArrayList<Ship>();
-		int n = (int) (energy / 3);
+		int n = (int) (energy * 0.4f);
 		energy -= n;
 		for (int i=0; i<n; i++)
 			shipsToStart.add(new Ship(party, this, to, 40));
