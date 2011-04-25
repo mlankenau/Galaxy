@@ -57,11 +57,16 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 
 		for (int i = 0; i < 6; i++) {
 			float size = 20;
+			int energy = 5;
 			float sr = (float) Math.random();
-			if (sr > 0.4)
+			if (sr > 0.4) {
+				energy = 10;
 				size = 25;
-			if (sr > 0.7)
+			}
+			if (sr > 0.7) {
+				energy = 20;
 				size = 30;
+			}
 
 			float x = 0;
 			float y = 0;
@@ -87,7 +92,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 			if (i == 1)
 				party = computer;
 
-			planets.add(new Planet(party, x, y, size, 5));
+			planets.add(new Planet(party, x, y, size, energy));
 		}
 
 		Thread thread = new Thread(new Runnable() {
