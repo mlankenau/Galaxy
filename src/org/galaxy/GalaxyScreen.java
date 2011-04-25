@@ -24,7 +24,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 	Party computer = null;
 	Party neutral = null;
 
-	float fps = 10;
+	float fps = 15;
 
 	public GalaxyScreen(Context context) {
 		super(context);
@@ -125,6 +125,10 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 					for (Planet planet : planets) {
 						if (planet.detectCollision(ship)
 								&& planet != ship.getSource()) {
+							
+							// if it is his own party and not destination, ignore
+							if (ship.getParty() == planet.getParty() && ship.getDest() != planet) continue;
+							
 							planet.collide(ship);
 							deadShips.add(ship);
 						}
