@@ -34,9 +34,9 @@ public class Ship {
 	public void move(float period) {		
 		Vector delta = dest.getPos().sub(pos);
 		delta = delta.normalize();
-		delta.multiply(speed * period);
+		delta = delta.multiply(speed * period);
 		
-		delta.add(new Vector((float) (Math.random() * fuzzyness) - fuzzyness / 2.f, (float) (Math.random() * fuzzyness) - fuzzyness / 2.f));
+		delta = delta.add(new Vector((float) (Math.random() * fuzzyness) - fuzzyness / 2.f, (float) (Math.random() * fuzzyness) - fuzzyness / 2.f));
 		pos = pos.add(delta);
 	}
 
