@@ -38,7 +38,7 @@ public class Planet {
 	
 	public void grow(float period) {
 		if (party.hasGrows()) {
-			energy += period * size / 50;
+			energy += period * size*size / 1000;
 		}
 	}
 	
@@ -69,10 +69,10 @@ public class Planet {
 	
 	public List<Ship> launch(Planet to) {
 		ArrayList<Ship> shipsToStart = new ArrayList<Ship>();
-		int n = (int) (energy / 3);
+		int n = (int) (energy * 0.4f);
 		energy -= n;
 		for (int i=0; i<n; i++)
-			shipsToStart.add(new Ship(party, this, to, 25));
+			shipsToStart.add(new Ship(party, this, to, 40));
 		
 		return shipsToStart;
 	}
