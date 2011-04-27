@@ -71,7 +71,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 
 				boolean collision = false;
 				for (Planet p : planets) {
-					Vector vp = p.getVector();
+					Vector vp = p.getPos();
 					Vector dist = vp.sub(new Vector(x, y));
 					if (dist.length() < p.getSize() + size + 10.f)
 						collision = true;
@@ -87,7 +87,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 			if (i == 1)
 				party = computer;
 
-			planets.add(new Planet(party, x, y, size, 5));
+			planets.add(new Planet(party, new Vector(x, y), size, 5));
 		}
 
 		Thread thread = new Thread(new Runnable() {
@@ -151,19 +151,19 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 		paintPlanetSelect.setColor(0x50ffffff);
 		for (Planet planet : planets) {
 
-			canvas.drawCircle(planet.getX(), planet.getY(), planet.getSize(),
+			canvas.drawCircle(planet.getPos().getX(), planet.getPos().getY(), planet.getSize(),
 					planet.getParty().getPaint());
-			canvas.drawText("" + planet.getEnergy(), planet.getX(),
-					planet.getY() + 3, paintText);
+			canvas.drawText("" + planet.getEnergy(), planet.getPos().getX(),
+					planet.getPos().getY() + 3, paintText);
 			
 		  if (dragFrom.contains(planet) || planet == possibleTarget) {
-			  canvas.drawCircle(planet.getX(), planet.getY(),
+			  canvas.drawCircle(planet.getPos().getX(), planet.getPos().getY(),
 					  planet.getSize()+15, paintPlanetSelect); 
 		  }
 			 
 		}
 		for (Ship ship : ships) {
-			canvas.drawCircle(ship.getX(), ship.getY(), 2, ship.getParty()
+			canvas.drawCircle(ship.getPos().getX(), ship.getPos().getY(), 2, ship.getParty()
 					.getPaint());
 		}
 

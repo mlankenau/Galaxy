@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Planet {
-	private float x;
-	private float y;
+	private Vector pos;
 	private float size;
 	private float energy;
 	private Party party;
@@ -18,20 +17,11 @@ public class Planet {
 		this.party = party;
 	}
 
-	public Planet(Party party, float x, float y, float size, int energy) {
-		this.x  =x;
-		this.y = y;
+	public Planet(Party party, Vector pos, float size, int energy) {
+		this.pos = pos;
 		this.size = size;
 		this.energy = energy;
 		this.party = party;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
 	}
 
 	public float getSize() {
@@ -42,8 +32,8 @@ public class Planet {
 		return (int) Math.floor(energy);
 	}
 	
-	public Vector getVector() {
-		return new Vector(x, y);
+	public Vector getPos() {
+		return pos;
 	}
 	
 	public void grow(float period) {
@@ -53,16 +43,14 @@ public class Planet {
 	}
 	
 	public boolean detectCollision(Ship ship) {
-		float dx = x - ship.getX();
-		float dy = y - ship.getY();
-		float length = (float) Math.sqrt(dx*dx+dy*dy);
+		Vector delta = pos.sub(ship.getPos());
+		float length = delta.length();
 		return length <= size;
 	}
 	
 	public boolean isHit(float hitx, float hity, float tolerance) {
-		float dx = x - hitx;
-		float dy = y - hity;
-		float length = (float) Math.sqrt(dx*dx+dy*dy);
+		Vector delta = pos.sub(new Vector(hitx, hity));
+		float length = delta.length();
 		return length <= size + tolerance;
 	}
 	

@@ -12,9 +12,8 @@ public class Ship {
 	public void setParty(Party party) {
 		this.party = party;
 	}
-
-	float x;
-	float y;
+	
+	Vector pos;
 	float speed;
 	
 	float fuzzyness = 5f;
@@ -24,31 +23,21 @@ public class Ship {
 		this.source = source;
 		this.dest = dest;
 		this.speed = speed;
-		x = source.getX();
-		y = source.getY();
-		
-		Vector delta = dest.getVector().sub(getVector()); 
+		pos = source.getPos();
+
+		Vector delta = dest.getPos().sub(pos); 
 		delta = delta.normalize();
-		Vector move = delta.multiply(source.getSize());
-		
-		x += move.getX();
-		y += move.getY();		
+		Vector move = delta.multiply(source.getSize());		
+		pos = pos.add(move);
 	}
 		
 	public void move(float period) {		
-		float dx = dest.getX() - x;
-		float dy = dest.getY() - y;
-		float length = (float) Math.sqrt(dx*dx+dy*dy);
-		dx /= length;
-		dy /= length;
-		dx *= speed * period;
-		dy *= speed * period;
+		Vector delta = dest.getPos().sub(pos);
+		delta = delta.normalize();
+		delta.multiply(speed * period);
 		
-		dx += (Math.random() * fuzzyness) - fuzzyness / 2.f;
-		dy += (Math.random() * fuzzyness) - fuzzyness / 2.f;
-		
-		x += dx;
-		y += dy;		
+		delta.add(new Vector((float) (Math.random() * fuzzyness) - fuzzyness / 2.f, (float) (Math.random() * fuzzyness) - fuzzyness / 2.f));
+		pos = pos.add(delta);
 	}
 
 	public Planet getSource() {
@@ -59,15 +48,8 @@ public class Ship {
 		return dest;
 	}
 
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
-	}	
 	
-	public Vector getVector() {
-		return new Vector(x, y);
+	public Vector getPos() {
+		return pos;
 	}
 }
