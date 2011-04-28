@@ -7,7 +7,7 @@ $ android update project --target 1 --path .
 
 and after that just do a
 
-$ build release
+$ ant release
 
 
 
