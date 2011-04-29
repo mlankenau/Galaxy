@@ -7,7 +7,7 @@ import android.graphics.Paint;
 public class Game {
 	private ArrayList<Planet> planets = new ArrayList<Planet>();
 	private ArrayList<Ship> ships = new ArrayList<Ship>();
-	
+	private ArrayList<Move> moves = new ArrayList<Move>();
 
 	private Party player = null;
 	private Party computer = null;
@@ -53,17 +53,9 @@ public class Game {
 		neutral = new Party("", neutralPaint);
 
 		for (int i = 0; i < 6; i++) {
-			float size = 20;
-			int energy = 5;
-			float sr = (float) Math.random();
-			if (sr > 0.4) {
-				energy = 10;
-				size = 25;
-			}
-			if (sr > 0.7) {
-				energy = 20;
-				size = 30;
-			}
+			
+			PlanetClass pc = PlanetClass.planetClasses[(int)(Math.random() * PlanetClass.planetClasses.length)];
+			
 
 			float x = 0;
 			float y = 0;
@@ -75,7 +67,7 @@ public class Game {
 				for (Planet p : planets) {
 					Vector vp = p.getPos();
 					Vector dist = vp.sub(new Vector(x, y));
-					if (dist.length() < p.getSize() + size + 10.f)
+					if (dist.length() < p.getSize() + pc.getSize() + 10.f)
 						collision = true;
 				}
 
@@ -89,7 +81,7 @@ public class Game {
 			if (i == 1)
 				party = computer;
 
-			planets.add(new Planet(party, new Vector(x, y), size, energy));
+			planets.add(new Planet(party, new Vector(x, y), pc));
 		}
 	}
 

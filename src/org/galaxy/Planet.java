@@ -8,6 +8,7 @@ public class Planet {
 	private float size;
 	private float energy;
 	private Party party;
+	private PlanetClass pc;
 	
 	public Party getParty() {
 		return party;
@@ -17,11 +18,12 @@ public class Planet {
 		this.party = party;
 	}
 
-	public Planet(Party party, Vector pos, float size, int energy) {
+	public Planet(Party party, Vector pos, PlanetClass pc) {
 		this.pos = pos;
-		this.size = size;
-		this.energy = energy;
+		this.size = pc.getSize();
+		this.energy = pc.getInitialEnergy();
 		this.party = party;
+		this.pc = pc;
 	}
 
 	public float getSize() {
@@ -38,7 +40,8 @@ public class Planet {
 	
 	public void grow(float period) {
 		if (party.hasGrows()) {
-			energy += period * size*size / 1000;
+			energy += period * pc.getGrowth();
+			if (energy > pc.getMaxEnergy()) energy = pc.getMaxEnergy();
 		}
 	}
 	
