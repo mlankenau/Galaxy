@@ -2,8 +2,6 @@ package org.galaxy;
 
 import java.util.ArrayList;
 
-import android.graphics.Paint;
-
 public class Game {
 	private ArrayList<Planet> planets = new ArrayList<Planet>();
 	private ArrayList<Ship> ships = new ArrayList<Ship>();
@@ -12,6 +10,7 @@ public class Game {
 	private Party player = null;
 	private Party computer = null;
 	private Party neutral = null;
+	
 	
 	public Party getPlayer() {
 		return player;
@@ -41,16 +40,9 @@ public class Game {
 	public void init() {
 		float boarder = 30;
 
-		Paint playerPaint = new Paint();
-		playerPaint.setColor(0xff00a000);
-		Paint computerPaint = new Paint();
-		computerPaint.setColor(0xffa00000);
-		Paint neutralPaint = new Paint();
-		neutralPaint.setColor(0xffa0a0a0);
-		
-		player = new Party("player", playerPaint);
-		computer = new Party("computer", computerPaint);
-		neutral = new Party("", neutralPaint);
+		player = new Party("player", 0xff00a000);
+		computer = new Party("computer", 0xffa00000);
+		neutral = new Party("", 0xffa0a0a0);
 
 		for (int i = 0; i < 6; i++) {
 			

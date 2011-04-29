@@ -1,7 +1,7 @@
 package org.galaxy;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +18,8 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 	HashSet<Planet> dragFrom = new HashSet<Planet>();
 	Planet possibleTarget = null;
 
+	Hashtable<Integer, Paint> paints = new Hashtable<Integer, Paint>();
+	
 
 	float fps = 15;
 
@@ -73,6 +75,17 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 		}
 	}
 
+	private Paint getPaint(int color) {
+		Paint p = paints.get(color);
+		if (p == null) {
+			p = new Paint();
+			p.setColor(color);
+			paints.put(color, p);
+		}
+		
+		return p;
+	}
+	
 	@Override
 	public void draw(Canvas canvas) {
 		Paint paintText = new Paint();
@@ -84,7 +97,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 		for (Planet planet : game.getPlanets()) {
 
 			canvas.drawCircle(planet.getPos().getX(), planet.getPos().getY(), planet.getSize(),
-					planet.getParty().getPaint());
+					getPaint(planet.getParty().getColor()));
 			canvas.drawText("" + planet.getEnergy(), planet.getPos().getX(),
 					planet.getPos().getY() + 3, paintText);
 			
@@ -95,8 +108,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 			 
 		}
 		for (Ship ship : game.getShips()) {
-			canvas.drawCircle(ship.getPos().getX(), ship.getPos().getY(), 2, ship.getParty()
-					.getPaint());
+			canvas.drawCircle(ship.getPos().getX(), ship.getPos().getY(), 2, getPaint(ship.getParty().getColor()));
 		}
 
 		super.draw(canvas);

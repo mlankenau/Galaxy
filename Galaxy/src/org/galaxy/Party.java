@@ -1,22 +1,21 @@
 package org.galaxy;
 
-import android.graphics.Paint;
 
 public class Party {
 	String name = "";
-	Paint paint;
+	int color;
 	
-	public Party(String name, Paint paint) {
+	public Party(String name, int color) {
 		this.name = name;
-		this.paint = paint;
+		this.color = color;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Paint getPaint() {
-		return paint;
+	public int getColor() {
+		return color;
 	}
 	
 	public boolean hasGrows() {
