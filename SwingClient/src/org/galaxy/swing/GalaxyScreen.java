@@ -53,16 +53,20 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 			int y = (int) planet.getPos().getY();
 			int size = (int) planet.getSize();
 	        
+
+			if (dragFrom.contains(planet) || planet == possibleTarget) {
+				g.setColor(Color.white);
+				g.fillOval(x-size-5, y-size-5, 2*size+10, 2*size+10);
+			}
+			
+			
 			g.setColor(new Color(planet.getParty().getColor()));
 			g.fillOval(x-size, y-size, 2*size, 2*size);
+
+			
 			g.setColor(Color.white);
 			g.drawString("" + planet.getEnergy(), -5 + (int) planet.getPos().getX(), (int) planet.getPos().getY() + 3);
 			
-//
-//			if (dragFrom.contains(planet) || planet == possibleTarget) {
-//				canvas.drawCircle(planet.getPos().getX(), planet.getPos()
-//						.getY(), planet.getSize() + 15, paintPlanetSelect);
-//			}
 
 		}
 		for (Ship ship : game.getShips()) {
@@ -143,13 +147,7 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent event) {
+	public void mouseDragged(MouseEvent event) {
 		possibleTarget = null;
 		if (dragFrom.size() > 0) {
 			Planet planetDragFrom = game.findPlanet(event.getX(), event.getY(),
@@ -158,7 +156,12 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 				dragFrom.add(planetDragFrom);
 
 			possibleTarget = game.findPlanet(event.getX(), event.getY(), null);
-		}		
+		}	
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent event) {
+	
 	}
 
 
