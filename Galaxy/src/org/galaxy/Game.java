@@ -1,6 +1,7 @@
 package org.galaxy;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Game {
 	private ArrayList<Planet> planets = new ArrayList<Planet>();
@@ -96,13 +97,15 @@ public class Game {
 	 * @param duration
 	 */
 	public void cycle(float duration) {
+		long time = new Date().getTime();
+		
 		for (Planet planet : planets) {
 			planet.grow(duration);
 		}
 
 		ArrayList<Ship> deadShips = new ArrayList<Ship>();
 		for (Ship ship : ships) {
-			ship.move(duration);
+			ship.move(time);
 
 			for (Planet planet : planets) {
 				if (planet.detectCollision(ship)

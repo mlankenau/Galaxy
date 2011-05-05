@@ -2,10 +2,10 @@ package org.galaxy.swing;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.swing.JPanel;
@@ -65,9 +65,7 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 
 			
 			g.setColor(Color.white);
-			g.drawString("" + planet.getEnergy(), -5 + (int) planet.getPos().getX(), (int) planet.getPos().getY() + 3);
-			
-
+			g.drawString("" + planet.getEnergy(), -5 + (int) planet.getPos().getX(), (int) planet.getPos().getY() + 3);			
 		}
 		for (Ship ship : game.getShips()) {
 			g.setColor(new Color(ship.getParty().getColor()));
@@ -91,9 +89,6 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 
 				Runnable redraw = new Runnable() {
 					public void run() {
-						//Graphics g = getGraphics();
-						//paint(g);
-						//update(g);
 						
 						paintImmediately(0, 0, getWidth(), getHeight());
 					}
@@ -108,20 +103,14 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -135,11 +124,14 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
+		
+		
 		Planet dragTo = game.findPlanet(event.getX(), event.getY(), null);
-		if (dragTo != null) {
+		
+		if (dragTo != null && !dragFrom.contains(dragTo)) {
 			for (Planet planetDragFrom : dragFrom) {
 				System.out.println("Launching sups... ");
-				game.getShips().addAll(planetDragFrom.launch(dragTo));
+				game.getShips().addAll(planetDragFrom.launch(dragTo, new Date().getTime()));
 			}
 		}
 		dragFrom.clear();

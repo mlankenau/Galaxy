@@ -1,5 +1,6 @@
 package org.galaxy;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -137,7 +138,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 			Planet dragTo = game.findPlanet(event.getX(), event.getY(), null);
 			if (dragTo != null) {
 				for (Planet planetDragFrom : dragFrom) {
-					game.getShips().addAll(planetDragFrom.launch(dragTo));
+					game.getShips().addAll(planetDragFrom.launch(dragTo, new Date().getTime()));
 				}
 			}
 			dragFrom.clear();

@@ -4,6 +4,12 @@ public class Ship {
 	Planet source = null;
 	Planet dest =  null;
 	private Party party;
+	long lauchTime = 0;
+	float deviation;
+	long launchLag = 0;
+	Vector startPoint;
+	float MAX_DEVIATION = 20.f;
+	float MAX_LAUNCHING_LAG = 200;
 	
 	public Party getParty() {
 		return party;
@@ -18,11 +24,16 @@ public class Ship {
 	
 	float fuzzyness = 5f;
 	
-	public Ship(Party party, Planet source, Planet dest, float speed) {
+	public Ship(Party party, Planet source, Planet dest, float speed, long lauchTime) {
 		this.party = party;
 		this.source = source;
 		this.dest = dest;
 		this.speed = speed;
+		this.launchLag = (long) (Math.random() * MAX_LAUNCHING_LAG);
+		this.lauchTime = lauchTime + launchLag;
+		this.startPoint = source.getPos().add(dest.getPos().sub(source.getPos()).normalize().multiply(source.getSize()));
+		
+		this.deviation = (float) (-MAX_DEVIATION + Math.random() * 2. * MAX_DEVIATION);
 		pos = source.getPos();
 
 		Vector delta = dest.getPos().sub(pos); 
@@ -31,13 +42,17 @@ public class Ship {
 		pos = pos.add(move);
 	}
 		
-	public void move(float period) {		
-		Vector delta = dest.getPos().sub(pos);
-		delta = delta.normalize();
-		delta = delta.multiply(speed * period);
+	public void move(long time) {		
+		Vector vector = dest.getPos().sub(startPoint);
 		
-		delta = delta.add(new Vector((float) (Math.random() * fuzzyness) - fuzzyness / 2.f, (float) (Math.random() * fuzzyness) - fuzzyness / 2.f));
-		pos = pos.add(delta);
+		
+		
+		Vector deviationVector = new Vector(vector.y, -vector.x).normalize().multiply(deviation);			
+		float timeLeft = ((float) (time - lauchTime)) / 1000.f;								
+		float traveled = timeLeft * speed;
+ 
+		deviationVector = deviationVector.multiply((float) (Math.sin(traveled / vector.length() * Math.PI)));
+		pos = startPoint.add(vector.normalize().multiply(traveled)).add(deviationVector);
 	}
 
 	public Planet getSource() {
