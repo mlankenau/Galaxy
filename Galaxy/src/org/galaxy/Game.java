@@ -133,6 +133,7 @@ public class Game {
 	public void move(Planet source, Planet target)  {
 		List<Ship> newShips = source.launch(target, new Date().getTime()); 
 		ships.addAll(newShips);
+		remote.sendMove(newShips);
 	}
 	
 }

@@ -43,11 +43,13 @@ public class Ship {
 	public String toJson() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("{");
-		buffer.append("  \"party\": \""+party.getId()+"\" ");
-		buffer.append("  \"party\": \""+party.getId()+"\" ");
-		
-		buffer.append("}");
-		
+		buffer.append("  \"party\": \""+party.getId()+"\",");
+		buffer.append("  \"source\": \""+source.getId()+"\",");
+		buffer.append("  \"destination\": \""+dest.getId()+"\",");
+		buffer.append("  \"speed\": "+speed+",");
+		buffer.append("  \"lauchTime\": "+ lauchTime + ",");
+		buffer.append("  \"deviation\": "+ deviation + "");
+		buffer.append("}\n");
 		
 		return buffer.toString();
 	}

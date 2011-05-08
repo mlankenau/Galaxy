@@ -4,6 +4,6 @@ require 'socket'
  #IO.select([s2])
  
 while (true) 
-
-	p s2.recvfrom(10)
+	msg = s2.recvfrom(10000)
+	p  msg[0]
 end 

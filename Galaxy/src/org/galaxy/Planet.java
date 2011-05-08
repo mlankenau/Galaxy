@@ -9,6 +9,9 @@ public class Planet {
 	private float energy;
 	private Party party;
 	private PlanetClass pc;
+	private int id;
+	
+	private static int nextId = 1;
 	
 	public Party getParty() {
 		return party;
@@ -24,6 +27,7 @@ public class Planet {
 		this.energy = pc.getInitialEnergy();
 		this.party = party;
 		this.pc = pc;
+		id = nextId++;
 	}
 
 	
@@ -37,6 +41,10 @@ public class Planet {
 	
 	public Vector getPos() {
 		return pos;
+	}
+	
+	public String getId() {
+		return ""+id;
 	}
 	
 	public void grow(float period) {
