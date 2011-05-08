@@ -30,6 +30,18 @@ public class Planet {
 		id = nextId++;
 	}
 
+	public String toJson() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("{");
+		buffer.append("  \"x\": "+pos.getX()+",");
+		buffer.append("  \"y\": "+pos.getY()+",");
+		buffer.append("  \"energy\": "+energy+",");
+		buffer.append("  \"party\": \""+party.getId()+"\",");
+		buffer.append("  \"planetClass\": "+pc.getId()+"");
+		buffer.append("}");
+		
+		return buffer.toString();
+	}
 	
 	public float getSize() {
 		return size;

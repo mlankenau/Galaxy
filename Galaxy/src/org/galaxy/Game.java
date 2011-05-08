@@ -38,6 +38,8 @@ public class Game {
 		this.ships = ships;
 	}
 	
+		
+	
 	/**
 	 * init game
 	 */

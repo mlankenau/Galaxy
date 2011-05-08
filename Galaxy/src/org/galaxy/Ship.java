@@ -49,7 +49,7 @@ public class Ship {
 		buffer.append("  \"speed\": "+speed+",");
 		buffer.append("  \"lauchTime\": "+ lauchTime + ",");
 		buffer.append("  \"deviation\": "+ deviation + "");
-		buffer.append("}\n");
+		buffer.append("}");
 		
 		return buffer.toString();
 	}
