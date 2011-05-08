@@ -40,6 +40,19 @@ public class Ship {
 		pos = pos.add(move);
 	}
 		
+	public String toJson() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("{");
+		buffer.append("  \"party\": \""+party.getId()+"\" ");
+		buffer.append("  \"party\": \""+party.getId()+"\" ");
+		
+		buffer.append("}");
+		
+		
+		return buffer.toString();
+	}
+
+	
 	public void move(long time) {		
 		Vector vector = dest.getPos().sub(startPoint);
 		

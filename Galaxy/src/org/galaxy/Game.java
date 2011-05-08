@@ -2,6 +2,8 @@ package org.galaxy;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 
 public class Game {
 	private ArrayList<Planet> planets = new ArrayList<Planet>();
@@ -12,6 +14,7 @@ public class Game {
 	private Party computer = null;
 	private Party neutral = null;
 	
+	Remote remote = null;
 	
 	public Party getPlayer() {
 		return player;
@@ -45,6 +48,8 @@ public class Game {
 		computer = new Party("computer", 0xffa00000);
 		neutral = new Party("", 0xffa0a0a0);
 
+		remote = new Remote("localhost", 10001, computer);
+		
 		for (int i = 0; i < 6; i++) {
 			
 			PlanetClass pc = PlanetClass.planetClasses[(int)(Math.random() * PlanetClass.planetClasses.length)];
@@ -123,4 +128,11 @@ public class Game {
 			ships.remove(ship);
 		}
 	}
+	
+	
+	public void move(Planet source, Planet target)  {
+		List<Ship> newShips = source.launch(target, new Date().getTime()); 
+		ships.addAll(newShips);
+	}
+	
 }

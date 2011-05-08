@@ -26,6 +26,7 @@ public class Planet {
 		this.pc = pc;
 	}
 
+	
 	public float getSize() {
 		return size;
 	}
