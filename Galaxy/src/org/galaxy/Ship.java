@@ -51,9 +51,10 @@ public class Ship {
 		
 		
 		
-		String speed = json.get("speed").toString();
-		String lauchTime = json.get("lauchTime").toString();
-		String deviation = json.get("deviation").toString();
+		
+		this.speed = Float.parseFloat(json.get("speed").toString());
+		this.lauchTime = Long.parseLong(json.get("lauchTime").toString());
+		this.deviation = Float.parseFloat(json.get("deviation").toString());
 		
 		
 		

@@ -34,7 +34,7 @@ public class ShipTest {
 		
 		assertEquals(ship.getSource(), shipCopy.getSource());
 		assertEquals(ship.getDest(), shipCopy.getDest());
-		assertEquals(game.getOpponent(), ship.getParty());
+		assertEquals(game.getOpponent(), shipCopy.getParty());
 		assertEquals(ship.getSpeed(), shipCopy.getSpeed());
 		assertEquals(ship.getDeviation(), shipCopy.getDeviation());
 	}
