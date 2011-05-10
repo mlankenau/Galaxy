@@ -22,4 +22,8 @@ public class Party {
 		return !name.equals(""); 
 	}
 	
+	public String getId() {
+		return name;
+	}
+	
 }

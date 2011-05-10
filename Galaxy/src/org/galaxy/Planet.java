@@ -9,6 +9,9 @@ public class Planet {
 	private float energy;
 	private Party party;
 	private PlanetClass pc;
+	private int id;
+	
+	private static int nextId = 1;
 	
 	public Party getParty() {
 		return party;
@@ -24,8 +27,22 @@ public class Planet {
 		this.energy = pc.getInitialEnergy();
 		this.party = party;
 		this.pc = pc;
+		id = nextId++;
 	}
 
+	public String toJson() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("{");
+		buffer.append("  \"x\": "+pos.getX()+",");
+		buffer.append("  \"y\": "+pos.getY()+",");
+		buffer.append("  \"energy\": "+energy+",");
+		buffer.append("  \"party\": \""+party.getId()+"\",");
+		buffer.append("  \"planetClass\": "+pc.getId()+"");
+		buffer.append("}");
+		
+		return buffer.toString();
+	}
+	
 	public float getSize() {
 		return size;
 	}
@@ -36,6 +53,10 @@ public class Planet {
 	
 	public Vector getPos() {
 		return pos;
+	}
+	
+	public String getId() {
+		return ""+id;
 	}
 	
 	public void grow(float period) {

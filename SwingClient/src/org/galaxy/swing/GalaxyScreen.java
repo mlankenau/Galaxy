@@ -25,6 +25,8 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 	HashSet<Planet> dragFrom = new HashSet<Planet>();
 	Planet possibleTarget = null;
 	
+	 
+	
 	
 	public GalaxyScreen() {
 		super();
@@ -131,7 +133,7 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 		if (dragTo != null && !dragFrom.contains(dragTo)) {
 			for (Planet planetDragFrom : dragFrom) {
 				System.out.println("Launching sups... ");
-				game.getShips().addAll(planetDragFrom.launch(dragTo, new Date().getTime()));
+				game.move(planetDragFrom, dragTo);
 			}
 		}
 		dragFrom.clear();
