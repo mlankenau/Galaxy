@@ -34,6 +34,7 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 		
 		game = GameFactory.getLevel(1);
 		
+		
 		addMouseListener(this);		
 		addMouseMotionListener(this);
 	
@@ -118,7 +119,7 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent event) {
 		Planet planetDragFrom = game.findPlanet(event.getX(), event.getY(),
-				game.getPlayer());
+				game.getMe());
 		if (planetDragFrom != null)
 			dragFrom.add(planetDragFrom);
 		
@@ -145,7 +146,7 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 		possibleTarget = null;
 		if (dragFrom.size() > 0) {
 			Planet planetDragFrom = game.findPlanet(event.getX(), event.getY(),
-					game.getPlayer());
+					game.getMe());
 			if (planetDragFrom != null)
 				dragFrom.add(planetDragFrom);
 

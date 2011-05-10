@@ -1,5 +1,7 @@
 package org.galaxy;
 
+import org.json.simple.JSONObject;
+
 public class Ship {
 	Planet source = null;
 	Planet dest =  null;
@@ -20,6 +22,42 @@ public class Ship {
 	
 	Vector pos;
 	float speed;
+	
+	
+	public long getLauchTime() {
+		return lauchTime;
+	}
+
+	public float getDeviation() {
+		return deviation;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public Ship(Game game, JSONObject json) {
+		source = game.findPlanet(json.get("source").toString());
+		dest = game.findPlanet(json.get("destination").toString());
+		
+				
+		String partyStr = json.get("party").toString();
+		if (partyStr.equals("")) 
+			party = game.getNeutral();
+		else if (partyStr.equals("me")) 
+			party = game.getOpponent();
+		else if (partyStr.equals("opponent")) 
+			party = game.getMe();
+		
+		
+		
+		String speed = json.get("speed").toString();
+		String lauchTime = json.get("lauchTime").toString();
+		String deviation = json.get("deviation").toString();
+		
+		
+		
+	}
 	
 	public Ship(Party party, Planet source, Planet dest, float speed, long lauchTime) {
 		long launchLag = (long) (Math.random() * MAX_LAUNCHING_LAG);

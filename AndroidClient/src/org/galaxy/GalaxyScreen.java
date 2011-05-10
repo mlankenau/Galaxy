@@ -120,7 +120,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			Planet planetDragFrom = game.findPlanet(event.getX(), event.getY(),
-					game.getPlayer());
+					game.getMe());
 			if (planetDragFrom != null)
 				dragFrom.add(planetDragFrom);
 
@@ -128,7 +128,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 			possibleTarget = null;
 			if (dragFrom.size() > 0) {
 				Planet planetDragFrom = game.findPlanet(event.getX(), event.getY(),
-						game.getPlayer());
+						game.getMe());
 				if (planetDragFrom != null)
 					dragFrom.add(planetDragFrom);
 

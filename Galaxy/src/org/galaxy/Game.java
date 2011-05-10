@@ -10,17 +10,17 @@ public class Game {
 	private ArrayList<Ship> ships = new ArrayList<Ship>();
 	private ArrayList<Move> moves = new ArrayList<Move>();
 
-	private Party player = null;
-	private Party computer = null;
+	private Party me = null;
+	private Party opponent = null;
 	private Party neutral = null;
 	
 	Remote remote = null;
 	
-	public Party getPlayer() {
-		return player;
+	public Party getMe() {
+		return me;
 	}
-	public Party getComputer() {
-		return computer;
+	public Party getOpponent() {
+		return opponent;
 	}
 	public Party getNeutral() {
 		return neutral;
@@ -40,9 +40,11 @@ public class Game {
 	
 		
 	public void initEmpty() {
-		player = new Party("me", 0xff00a000);
-		computer = new Party("other", 0xffa00000);
+		me = new Party("me", 0xff00a000);
+		opponent = new Party("opponent", 0xffa00000);
 		neutral = new Party("", 0xffa0a0a0);
+		
+		remote = new Remote("localhost", 10001, opponent);
 	}
 	
 	/**
@@ -51,11 +53,11 @@ public class Game {
 	public void initRandom() {
 		float boarder = 30;
 
-		player = new Party("player", 0xff00a000);
-		computer = new Party("computer", 0xffa00000);
+		me = new Party("player", 0xff00a000);
+		opponent = new Party("computer", 0xffa00000);
 		neutral = new Party("", 0xffa0a0a0);
 
-		remote = new Remote("localhost", 10001, computer);
+		remote = new Remote("localhost", 10001, opponent);
 		
 		for (int i = 0; i < 6; i++) {
 			
@@ -82,14 +84,29 @@ public class Game {
 
 			Party party = neutral;
 			if (i == 0)
-				party = player;
+				party = me;
 			if (i == 1)
-				party = computer;
+				party = opponent;
 
-			planets.add(new Planet(party, new Vector(x, y), pc));
+			planets.add(new Planet(i, party, new Vector(x, y), pc));
 		}
 	}
 
+	
+	public void chooseSide() {
+		if (!remote.isFirst()) {
+			takeOtherSide();
+		}
+	}
+	
+	private void takeOtherSide() {
+		for (Planet planet : planets) {
+			if (planet.getParty() == me) 
+				planet.setParty(opponent);
+			else if (planet.getParty() == opponent)
+				planet.setParty(me);
+		}
+	}
 	
 	/**
 	 * find a planet at the coordinates
@@ -141,6 +158,14 @@ public class Game {
 		List<Ship> newShips = source.launch(target, new Date().getTime()); 
 		ships.addAll(newShips);
 		remote.sendMove(newShips);
+	}
+	
+	public Planet findPlanet(String id) {
+		for (Planet p : planets) {
+			if (p.getId().equals(id)) 
+				return p;
+		}
+		return null;
 	}
 	
 }

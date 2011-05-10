@@ -21,13 +21,13 @@ public class Planet {
 		this.party = party;
 	}
 
-	public Planet(Party party, Vector pos, PlanetClass pc) {
+	public Planet(int id, Party party, Vector pos, PlanetClass pc) {
 		this.pos = pos;
 		this.size = pc.getSize();
 		this.energy = pc.getInitialEnergy();
 		this.party = party;
 		this.pc = pc;
-		id = nextId++;
+		this.id = id;
 	}
 
 	public String toJson() {

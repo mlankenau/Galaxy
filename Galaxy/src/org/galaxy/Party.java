@@ -26,4 +26,8 @@ public class Party {
 		return name;
 	}
 	
+	public String toString() {
+		return "party:"+name;
+	}
+	
 }
