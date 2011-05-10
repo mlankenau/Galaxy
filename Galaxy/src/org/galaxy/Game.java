@@ -35,10 +35,18 @@ public class Game {
 		this.ships = ships;
 	}
 	
+	
+		
+	public void initEmpty() {
+		player = new Party("me", 0xff00a000);
+		computer = new Party("other", 0xffa00000);
+		neutral = new Party("", 0xffa0a0a0);
+	}
+	
 	/**
 	 * init game
 	 */
-	public void init() {
+	public void initRandom() {
 		float boarder = 30;
 
 		player = new Party("player", 0xff00a000);

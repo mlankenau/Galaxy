@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.galaxy.Game;
+import org.galaxy.GameFactory;
 import org.galaxy.Planet;
 import org.galaxy.Ship;
 
@@ -29,8 +30,7 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 		super();
 		setBackground(new Color(0x000000));
 		
-		game = new Game();
-		game.init();
+		game = GameFactory.getLevel(1);
 		
 		addMouseListener(this);		
 		addMouseMotionListener(this);

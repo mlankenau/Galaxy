@@ -15,7 +15,7 @@ import android.view.View;
 
 public class GalaxyScreen extends View implements View.OnTouchListener {
 
-	Game game = new Game();
+	Game game = null;
 	HashSet<Planet> dragFrom = new HashSet<Planet>();
 	Planet possibleTarget = null;
 
@@ -40,7 +40,7 @@ public class GalaxyScreen extends View implements View.OnTouchListener {
 	}
 
 	private void init() {
-		game.init();
+		game = GameFactory.getLevel(1);
 		
 		
 		Thread thread = new Thread(new Runnable() {
