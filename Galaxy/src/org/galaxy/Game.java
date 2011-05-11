@@ -128,7 +128,11 @@ public class Game {
 	public void cycle(float duration) {
 		long time = new Date().getTime();
 		
-		ships.addAll(remote.getMoves());
+		List<Ship> remoteMoves = remote.getMoves(); 
+		for (Ship ship : remoteMoves) {
+			ship.getSource().removeEnergy(1.f);
+		}
+		ships.addAll(remoteMoves);
 		
 		for (Planet planet : planets) {
 			planet.grow(duration);

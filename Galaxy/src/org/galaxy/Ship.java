@@ -52,6 +52,8 @@ public class Ship {
 		this.speed = Float.parseFloat(json.get("speed").toString());
 		this.lauchTime = Long.parseLong(json.get("lauchTime").toString());
 		this.deviation = Float.parseFloat(json.get("deviation").toString());
+		
+		this.startPoint = source.getPos().add(dest.getPos().sub(source.getPos()).normalize().multiply(source.getSize()));
 	}
 	
 	public Ship(Party party, Planet source, Planet dest, float speed, long lauchTime) {

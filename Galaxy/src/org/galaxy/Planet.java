@@ -100,4 +100,8 @@ public class Planet {
 		
 		return shipsToStart;
 	}
+	
+	public void removeEnergy(float amount) {
+		energy -= amount;
+	}
 }

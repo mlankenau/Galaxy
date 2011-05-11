@@ -64,7 +64,7 @@ public class Remote  {
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 			try {
 				socket.receive(packet);
-				String s = new String(buffer, "UTF-8");
+				String s = new String(buffer, packet.getOffset(), packet.getLength(), "UTF-8");
 				System.out.println("received: " + s);
 				JSONArray array = (JSONArray) JSONValue.parse(s);
 				System.out.println("array: " + array);
