@@ -44,7 +44,7 @@ public class Game {
 		opponent = new Party("opponent", 0xffa00000);
 		neutral = new Party("", 0xffa0a0a0);
 		
-		remote = new Remote("localhost", 10001, opponent);
+		remote = new Remote(this, "localhost", 10001, opponent);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class Game {
 		opponent = new Party("computer", 0xffa00000);
 		neutral = new Party("", 0xffa0a0a0);
 
-		remote = new Remote("localhost", 10001, opponent);
+		remote = new Remote(this, "localhost", 10001, opponent);
 		
 		for (int i = 0; i < 6; i++) {
 			
@@ -127,6 +127,8 @@ public class Game {
 	 */
 	public void cycle(float duration) {
 		long time = new Date().getTime();
+		
+		ships.addAll(remote.getMoves());
 		
 		for (Planet planet : planets) {
 			planet.grow(duration);

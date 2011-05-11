@@ -49,15 +49,9 @@ public class Ship {
 		else if (partyStr.equals("opponent")) 
 			party = game.getMe();
 		
-		
-		
-		
 		this.speed = Float.parseFloat(json.get("speed").toString());
 		this.lauchTime = Long.parseLong(json.get("lauchTime").toString());
 		this.deviation = Float.parseFloat(json.get("deviation").toString());
-		
-		
-		
 	}
 	
 	public Ship(Party party, Planet source, Planet dest, float speed, long lauchTime) {
