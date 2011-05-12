@@ -24,7 +24,8 @@ public class Remote  {
 	public boolean isFirst() {
 		return first;
 	}
-
+	
+	
 	public Remote(Game game, String host, int port, Party party) {
 		this.game = game;
 		try {

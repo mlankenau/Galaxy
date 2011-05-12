@@ -34,7 +34,6 @@ public class GalaxyScreen extends JPanel implements MouseListener, MouseMotionLi
 		
 		game = GameFactory.getLevel(1);
 		
-		
 		addMouseListener(this);		
 		addMouseMotionListener(this);
 	
