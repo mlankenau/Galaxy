@@ -1,9 +1,13 @@
 package org.galaxy;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.net.DatagramSocket;
+
 import org.galaxy.net.HttpUtil;
+import org.galaxy.net.UDPUtil;
 import org.json.simple.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,17 +34,40 @@ public class GameInitiatorTest extends GameInitiator {
 	}
 	
 	@Test
-	public void testStartMultiplayer() throws Exception {
+	public void testStartMultiplayerTimeout() throws Exception {
 		JSONArray players = getPlayers();
 		System.out.println("players: " + players);
 		
 		GameInitiator.CallbackStartMultiplay callback = mock(GameInitiator.CallbackStartMultiplay.class);		
-		startMultiplayer(callback, 500);
+		startMultiplayer(callback, 10002, 500);
 		
 		verify(callback).timedout();
 	}
 	
 
+	
+	@Test
+	public void testStartMultiplayerConnectExistingPeer() throws Exception {
+		DatagramSocket socket = new DatagramSocket(10001);
+		
+		try {
+			enlist(10001, "Heinz");
+			
+			
+			JSONArray players = getPlayers();
+			System.out.println("players: " + players);
+			
+			GameInitiator.CallbackStartMultiplay callback = mock(GameInitiator.CallbackStartMultiplay.class);		
+			startMultiplayer(callback, 10003, 500);
+				
+			String message = UDPUtil.receive(socket);
+			assertEquals("connect", message);
+		
+		}
+		finally {
+			socket.close();
+		}
+	}
 	
 	
 	

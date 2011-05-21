@@ -1,10 +1,14 @@
 package org.galaxy;
 
+import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.Date;
 
 import org.galaxy.net.HttpUtil;
+import org.galaxy.net.UDPUtil;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 public class GameInitiator {
@@ -15,6 +19,7 @@ public class GameInitiator {
 	protected String baseUrl = BASE_SERVER_URL;
 	protected HttpUtil httpUtil = new HttpUtil();
 	
+	DatagramSocket socket = null;
 	
 	public interface CallbackStartMultiplay {		
 		void timedout();		
@@ -45,14 +50,19 @@ public class GameInitiator {
 	}
 
 	
-	public void startMultiplayer(CallbackStartMultiplay callbackStart, long timeout) {				
+	public void startMultiplayer(CallbackStartMultiplay callbackStart, int myport, long timeout) throws SocketException {				
 		Date start = new Date();
-				
+			
+		socket = new DatagramSocket(myport);
+		
 		try {
 			while (new Date().getTime() - start.getTime() < timeout) {				
 				JSONArray players = getPlayers();								
 				if (players.size() > 0) {
-					
+					JSONObject playerJson = (JSONObject) players.get(0);
+
+					socket.connect(InetAddress.getByName((String) playerJson.get("ip")), Integer.parseInt((String) playerJson.get("port")));
+					UDPUtil.send(socket, "connect");
 				}
 				
 				Thread.sleep(Math.min(1000, timeout / 4));

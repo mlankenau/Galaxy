@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.galaxy.net.UDPUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -21,9 +22,21 @@ public class Remote  {
 	Game game = null;
 	List<Ship> newShips = new ArrayList<Ship>();
 	
+	public final static int STATE_WAITING_FOR_CONNECT = 1;
+	public final static int STATE_CONNECTED = 2;
+	
+	public int state;	
+	
+	
 	public boolean isFirst() {
 		return first;
 	}
+	
+	public Remote(int myPort) throws SocketException {
+		socket = new DatagramSocket(myPort);		
+		state = STATE_WAITING_FOR_CONNECT;
+	}
+	
 	
 	
 	public Remote(Game game, String host, int port, Party party) {
@@ -59,29 +72,21 @@ public class Remote  {
 		new Thread(runnable).start();		
 	}
 	
+	
+	protected void processConnect() {
+		if (state == STATE_WAITING_FOR_CONNECT) {
+			
+			
+		}		
+	}
+	
 	protected void receiveThread() {
 		while (true) {
 			byte[] buffer = new byte[100000]; 
-			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
 			try {
-				socket.receive(packet);
-				String s = new String(buffer, packet.getOffset(), packet.getLength(), "UTF-8");
-				System.out.println("received: " + s);
-				JSONArray array = (JSONArray) JSONValue.parse(s);
-				System.out.println("array: " + array);
-				if (array != null) {
-					synchronized(newShips) {
-						for (int i=0; i<array.size(); i++) {
-							JSONObject shipJson = (JSONObject) array.get(i);
-							Ship ship = new Ship(game, shipJson);
-							newShips.add(ship);
-						}
-					}
-				}
-					
-				
+				String message = UDPUtil.receive(socket);								
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -104,14 +109,8 @@ public class Remote  {
 	
 	public void sendMove(List<Ship> ships) {
 		String message = shipsToJson(ships);
-		byte[] bytes;
 		try {
-			bytes = message.toString().getBytes("UTF-8");
-			System.out.println("size: " + bytes.length);
-			DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
-			socket.send(packet);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			UDPUtil.send(socket, message);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
